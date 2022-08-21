@@ -4,8 +4,9 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Serialization;
-using static API_A_HOME.Models.response.Response;
+using static API_A_HOME.Models.response.ResponseCheck;
 using NLog;
+using Newtonsoft.Json;
 
 namespace API_A_HOME.Adapter
 {
@@ -24,36 +25,37 @@ namespace API_A_HOME.Adapter
             var request = new RestRequest($"/payment_app.cgi?command=check&txn_id={txn_id}&account={account}", Method.Get);
             request.AddHeader("Authorization", "Basic YW1yYTpiYW5rMTMyMQ==");
 
-            RestResponse response;
+            var response = client.Execute(request);
 
-            try
-            {
-                response = client.Execute(request);
+            IsNullException(response);
 
-                if (response != null)
-                {
-                    logger.Info("Клиент найден");
-                }
-                else
-                {
-                    logger.Info("Клиент не найден");
-                }
-
-                XmlSerializer serializer = new XmlSerializer(typeof(Response));
-
-                using (StringReader reader = new StringReader(response.Content))
-                {
-                    var test = (Response)serializer.Deserialize(reader);
-                }
-
-            }
-
-            catch (Exception err)
-            {
-                throw new Exception(err.ToString());
-            }
+            ResponseCheck rc = GetCustomerFromXML(response);
 
             return response.Content;
+        }
+        private static ResponseCheck GetCustomerFromXML(RestResponse? response)
+        {
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception(response.ErrorException.ToString());
+
+
+            XmlSerializer serializer = new XmlSerializer(typeof(ResponseCheck));
+
+            StringReader reader = new StringReader(response.Content);
+            
+            var test = (ResponseCheck)serializer.Deserialize(reader);
+            
+
+            if (test.Result != 0)
+
+                throw new Exception("Произошла ошибка при попытке поиска клиента в базе A-HOME");
+            return test;
+        }
+
+        private static void IsNullException(RestResponse? response)
+        {
+            if (response == null)
+                throw new Exception("Ответ запроса на проверку равен NULL ");
         }
     }
 }

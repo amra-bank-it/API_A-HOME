@@ -19,4 +19,4 @@ RUN dotnet publish "API_A-HOME.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "API_A-HOME.dll"]
+ENTRYPOINT ["dotnet", "API_A-HOME.dll"]6
