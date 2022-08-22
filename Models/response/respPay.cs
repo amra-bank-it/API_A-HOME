@@ -2,11 +2,10 @@
 
 namespace API_A_HOME.Models.response
 {
-
     [XmlRoot(ElementName = "response")]
     public class ResponsePay
     {
-        [XmlElement(ElementName = "osmp_txn_id")]
+        [XmlElement(ElementName = "osmp_txn_id")] 
         public int Osmp_txn_id { get; set; }
 
         [XmlElement(ElementName = "prv_txn")]
@@ -20,6 +19,5 @@ namespace API_A_HOME.Models.response
 
         [XmlElement(ElementName = "comment")]
         public string Comment { get; set; }
-
     }
 }

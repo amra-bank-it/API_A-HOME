@@ -1,4 +1,5 @@
 ﻿using API_A_HOME.Models.response;
+using Newtonsoft.Json;
 using RestSharp;
 using System.Xml.Serialization;
 
@@ -34,7 +35,7 @@ namespace API_A_HOME.Adapter
         {
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception(response.ErrorException.ToString());
-
+          
 
             XmlSerializer serializer = new XmlSerializer(typeof(ResponsePay));
 
@@ -43,10 +44,9 @@ namespace API_A_HOME.Adapter
             var test = (ResponsePay)serializer.Deserialize(reader);
 
 
-
             if (test.Result != 0)
 
-                throw new Exception($"Платеж не успешный, ошибка провайдера!");
+                throw new Exception("Платеж не успешный, ошибка провайдера!");
 
             return test;
         }
