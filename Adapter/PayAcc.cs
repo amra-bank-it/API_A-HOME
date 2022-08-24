@@ -7,7 +7,7 @@ namespace API_A_HOME.Adapter
 {
     public class PayAcc
     {
-        public static string ReqPay(int txn_id, string account, double sum)
+        public static string ReqPay(int txn_id, string account, decimal sum)
         {
             var options = new RestClientOptions("https://pay.a-home.biz/osmp_amra_test.php");
             options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
@@ -45,7 +45,7 @@ namespace API_A_HOME.Adapter
 
             if (test.Result != 0)
 
-                throw new Exception("Платеж не успешный, ошибка провайдера!");
+                throw new Exception("Платеж не успешный!");
 
             return test;
         }

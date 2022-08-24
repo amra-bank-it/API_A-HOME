@@ -12,7 +12,7 @@ namespace API_A_HOME.Models.response
 		public string Prv_txn { get; set; }
 
 		[XmlElement(ElementName = "sum")]
-		public double Sum { get; set; }
+		public string Sum { get; set; }
 
 		[XmlElement(ElementName = "result")]
 		public int Result { get; set; }
