@@ -10,7 +10,7 @@ namespace API_A_HOME.Controllers
     {
         [HttpGet(Name = "Pay")]
 
-        public string Pay(int txn_id, string account, decimal sum)
+        public string Pay(int txn_id, string account, double sum)
         {
             return PayAcc.ReqPay(txn_id , account , sum);
         }

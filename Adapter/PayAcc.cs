@@ -7,7 +7,7 @@ namespace API_A_HOME.Adapter
 {
     public class PayAcc
     {
-        public static string ReqPay(int txn_id, string account, decimal sum)
+        public static string ReqPay(int txn_id, string account, double sum)
         {
             var options = new RestClientOptions("https://pay.a-home.biz/osmp_amra_test.php");
             options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
@@ -27,7 +27,6 @@ namespace API_A_HOME.Adapter
             ResponsePay rp = GetPaymentCustomerFromJSON(response);
 
 
-
             return response.Content;
         }
 
@@ -35,7 +34,7 @@ namespace API_A_HOME.Adapter
         {
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception(response.ErrorException.ToString());
-          
+
 
             XmlSerializer serializer = new XmlSerializer(typeof(ResponsePay));
 
