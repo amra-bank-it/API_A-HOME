@@ -17,7 +17,12 @@ namespace API_A_HOME.Adapter
         { 
             Logger logger = LogManager.GetCurrentClassLogger();
 
+            var configuration = new Configuration();
+            var appSettings = configuration.Get("AppSettings"); // null
+            var token = configuration.Get("token"); // null
+
             var options = new RestClientOptions("https://195.191.5.17/amra_osmp.php");
+
             options.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
 
             var client = new RestClient(options);
